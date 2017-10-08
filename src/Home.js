@@ -47,7 +47,7 @@ export default class Menu extends React.Component {
               />
               <Button
                 as={Link}
-                to="/menu"
+                to="/find-the-pair/menu"
                 color="teal"
                 fluid
                 size="large"

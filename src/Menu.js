@@ -104,8 +104,14 @@ export default class Menu extends React.Component {
             </Button.Group>
           </Segment>
           <Segment vertical basic>
-            <Button as={Link} to="/game" color="teal" fluid size="large">
-              Start
+            <Button
+              as={Link}
+              to="/find-the-pair/game"
+              color="teal"
+              fluid
+              size="large"
+            >
+              Play
             </Button>
           </Segment>
         </Container>

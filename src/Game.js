@@ -210,7 +210,7 @@ export default class Game extends React.Component {
             <Button
               color="green"
               as={Link}
-              to="/menu"
+              to="/find-the-pair/menu"
               content="Continue"
               icon="right arrow"
               labelPosition="right"
