@@ -65,7 +65,7 @@ class App extends Component {
               <Switch>
                 <Route
                   exact
-                  path="/"
+                  path="/find-the-pair"
                   render={props => (
                     <Home
                       handleNameChange={this.handleNameChange}
@@ -76,7 +76,7 @@ class App extends Component {
                 />
                 <Route
                   exact
-                  path="/menu"
+                  path="/find-the-pair/menu"
                   render={props =>
                     name ? (
                       <Menu
@@ -88,12 +88,12 @@ class App extends Component {
                         handleModeChange={this.handleModeChange}
                       />
                     ) : (
-                      <Redirect to="/" />
+                      <Redirect to="/find-the-pair" />
                     )}
                 />
                 <Route
                   exact
-                  path="/game"
+                  path="/find-the-pair/game"
                   render={props =>
                     name ? (
                       <Game
@@ -105,10 +105,10 @@ class App extends Component {
                         difficulty={difficulty}
                       />
                     ) : (
-                      <Redirect to="/" />
+                      <Redirect to="/find-the-pair" />
                     )}
                 />
-                <Redirect to="/" />
+                <Redirect to="/find-the-pair" />
               </Switch>
             </Grid.Column>
           </Grid>
