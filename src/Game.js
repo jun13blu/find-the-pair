@@ -87,7 +87,7 @@ export default class Game extends React.Component {
                       ? [...reveal, first, second]
                       : reveal
                 },
-                () => console.log(this.state)
+                this.checkWin
               ),
             500
           )
@@ -117,6 +117,18 @@ export default class Game extends React.Component {
   }
 
   ready = () => this.setState({ ready: true })
+
+  checkWin = () =>
+    this.state.reveal.length === this.state.cards.length
+      ? fetch('https://hooks.zapier.com/hooks/catch/2557220/i6j5wx/', {
+          method: 'post',
+          body: JSON.stringify({
+            name: this.props.name,
+            steps: this.state.steps,
+            mode: this.props.mode
+          })
+        })
+      : {}
 
   render() {
     return (

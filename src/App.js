@@ -98,6 +98,7 @@ class App extends Component {
                     name ? (
                       <Game
                         {...props}
+                        name={name}
                         mahjong={mahjong}
                         poker={poker}
                         mode={mode}
