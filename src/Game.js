@@ -7,11 +7,9 @@ import {
   Header,
   Container,
   Modal,
-  Icon,
   Button
 } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
-import logo from './logo.svg'
 import { object, string } from 'prop-types'
 
 const cardsNumber = {
@@ -169,6 +167,7 @@ export default class Game extends React.Component {
                 >
                   <Reveal.Content visible>
                     <Image
+                      className="card"
                       src={
                         this.props.mode === 'poker'
                           ? this.state.poker.back

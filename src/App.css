@@ -7,3 +7,11 @@ body,
 .input input[type='text'] {
   text-align: center;
 }
+
+.card {
+  cursor: pointer;
+}
+
+.reveal .visible :hover {
+  filter: brightness(85%);
+}
