@@ -114,6 +114,9 @@ export default class Menu extends React.Component {
               Play
             </Button>
           </Segment>
+          <p>
+            Not {this.props.name}? Click <Link to="/find-the-pair/">here</Link>.
+          </p>
         </Container>
       </Transition>
     )

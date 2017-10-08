@@ -19,7 +19,7 @@ export default class Menu extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({ visible: true })
+    this.setState({ visible: true }, () => this.props.handleNameChange(''))
   }
 
   handleChange = (e, { value }) => this.props.handleNameChange(value)
