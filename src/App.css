@@ -12,6 +12,6 @@ body,
   cursor: pointer;
 }
 
-.reveal .visible :hover {
+.card-reveal :hover {
   filter: brightness(85%);
 }

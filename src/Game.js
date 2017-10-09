@@ -7,7 +7,8 @@ import {
   Header,
   Container,
   Modal,
-  Button
+  Button,
+  Transition
 } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { object, string } from 'prop-types'
@@ -136,11 +137,21 @@ export default class Game extends React.Component {
   }
 
   render() {
+    const {
+      first,
+      second,
+      reveal,
+      steps,
+      cards,
+      ready,
+      poker,
+      mahjong
+    } = this.state
     return (
       <Container>
-        {this.state.ready ? (
+        {ready ? (
           <Header as="h1" color="teal" textAlign="center">
-            Steps: {this.state.steps}
+            Steps: {steps}
           </Header>
         ) : (
           <Button color="teal" onClick={this.ready}>
@@ -158,40 +169,41 @@ export default class Game extends React.Component {
                 : cardsNumber[this.props.difficulty]
             }
           >
-            {this.state.cards.map(card => (
+            {cards.map(card => (
               <Grid.Column
                 key={card.id}
                 style={{
-                  opacity: this.state.reveal.includes(card.id) ? 0 : undefined,
+                  opacity: reveal.includes(card.id) ? 0 : undefined,
                   transition: 'opacity 0.5s'
                 }}
               >
                 <Reveal
                   animated="move up"
                   disabled={
-                    this.state.first !== card.id &&
-                    this.state.second !== card.id &&
-                    !this.state.reveal.includes(card.id) &&
-                    this.state.ready
+                    first !== card.id &&
+                    second !== card.id &&
+                    !reveal.includes(card.id) &&
+                    ready
                   }
                   active={
-                    this.state.first === card.id ||
-                    this.state.second === card.id ||
-                    this.state.reveal.includes(card.id) ||
-                    !this.state.ready
+                    first === card.id ||
+                    second === card.id ||
+                    reveal.includes(card.id) ||
+                    !ready
                   }
                   style={{ width: 'fit-content', margin: 'auto' }}
                 >
-                  <Reveal.Content visible>
+                  <Reveal.Content
+                    visible
+                    className={second ? undefined : 'card-reveal'}
+                  >
                     <Image
-                      className="card"
+                      className={second ? undefined : 'card'}
                       src={
-                        this.props.mode === 'poker'
-                          ? this.state.poker.back
-                          : this.state.mahjong.back
+                        this.props.mode === 'poker' ? poker.back : mahjong.back
                       }
                       size="small"
-                      onClick={() => this.select(card.id)}
+                      onClick={second ? undefined : () => this.select(card.id)}
                     />
                   </Reveal.Content>
                   <Reveal.Content hidden>
@@ -202,26 +214,30 @@ export default class Game extends React.Component {
             ))}
           </Grid>
         </Segment>
-
-        <Modal open={this.state.reveal.length === this.state.cards.length}>
-          <Modal.Header>Congratulations, {this.props.name}!</Modal.Header>
-          <Modal.Content>
-            <p>
-              You've taken {this.state.steps} steps to find all the pairs. Good
-              job!
-            </p>
-          </Modal.Content>
-          <Modal.Actions>
-            <Button
-              color="green"
-              as={Link}
-              to="/find-the-pair/menu"
-              content="Continue"
-              icon="right arrow"
-              labelPosition="right"
-            />
-          </Modal.Actions>
-        </Modal>
+        <Button color="red" as={Link} to="/find-the-pair/menu">
+          Exit
+        </Button>
+        <Transition
+          visible={reveal.length === cards.length}
+          animation="fade up"
+        >
+          <Modal open={reveal.length === cards.length}>
+            <Modal.Header>Congratulations, {this.props.name}!</Modal.Header>
+            <Modal.Content>
+              <p>You've taken {steps} steps to find all the pairs. Good job!</p>
+            </Modal.Content>
+            <Modal.Actions>
+              <Button
+                color="green"
+                as={Link}
+                to="/find-the-pair/menu"
+                content="Continue"
+                icon="right arrow"
+                labelPosition="right"
+              />
+            </Modal.Actions>
+          </Modal>
+        </Transition>
       </Container>
     )
   }
