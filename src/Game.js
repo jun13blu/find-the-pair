@@ -46,7 +46,11 @@ export default class Game extends React.Component {
         .filter(card => card.type !== 'back')
     },
     cards: [],
-    ready: false
+    ready: false,
+    time: {
+      memory: 0,
+      game: 0
+    }
   }
 
   static propTypes = {
@@ -57,15 +61,38 @@ export default class Game extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({
-      cards: this.getCardList(
-        this.props.mode === 'poker'
-          ? this.state.poker.front
-          : this.state.mahjong.front,
-        cardsNumber[this.props.difficulty]
-      )
-    })
+    this.setState(
+      {
+        cards: this.getCardList(
+          this.props.mode === 'poker'
+            ? this.state.poker.front
+            : this.state.mahjong.front,
+          cardsNumber[this.props.difficulty]
+        )
+      },
+      this.timer
+    )
   }
+
+  timer = () =>
+    setTimeout(
+      () =>
+        this.setState(
+          {
+            time: this.state.ready
+              ? {
+                  memory: this.state.time.memory,
+                  game: this.state.time.game + 1
+                }
+              : {
+                  memory: this.state.time.memory + 1,
+                  game: this.state.time.game
+                }
+          },
+          this.timer
+        ),
+      1000
+    )
 
   select = id =>
     this.setState(
@@ -130,10 +157,21 @@ export default class Game extends React.Component {
           mode: this.props.mode,
           difficulty: this.props.difficulty,
           date: `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`,
-          time: `${d.getHours()}:${d.getMinutes()}`
+          time: `${d.getHours()}:${d.getMinutes()}`,
+          memorize: this.state.time.memory,
+          game: this.state.time.game
         })
       })
     }
+  }
+
+  format = time => {
+    const hour = time / 3600
+    const min = (time % 3600) / 60
+    const sec = time % 60
+    return `${hour > 9 ? hour.toFixed(0) : `0${hour.toFixed(0)}`}:${min > 9
+      ? min.toFixed(0)
+      : `0${min.toFixed(0)}`}:${sec > 9 ? sec : `0${sec}`}`
   }
 
   render() {
@@ -145,19 +183,17 @@ export default class Game extends React.Component {
       cards,
       ready,
       poker,
-      mahjong
+      mahjong,
+      time
     } = this.state
     return (
       <Container>
-        {ready ? (
-          <Header as="h1" color="teal" textAlign="center">
-            Steps: {steps}
-          </Header>
-        ) : (
-          <Button color="teal" onClick={this.ready}>
-            I'm Ready
-          </Button>
-        )}
+        <Header as="h1" color="teal" textAlign="center">
+          Steps: {steps}
+          <Header.Subheader>
+            {this.format(time.memory)} | {this.format(time.game)}
+          </Header.Subheader>
+        </Header>
 
         <Segment>
           <Grid
@@ -214,9 +250,15 @@ export default class Game extends React.Component {
             ))}
           </Grid>
         </Segment>
-        <Button color="red" as={Link} to="/find-the-pair/menu">
-          Exit
-        </Button>
+        {ready ? (
+          <Button color="red" as={Link} to="/find-the-pair/menu">
+            Exit
+          </Button>
+        ) : (
+          <Button color="teal" onClick={this.ready}>
+            I'm Ready
+          </Button>
+        )}
         <Transition
           visible={reveal.length === cards.length}
           animation="fade up"

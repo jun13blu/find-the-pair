@@ -40,6 +40,15 @@ class App extends Component {
     background: '#f7f7f7'
   }
 
+  componentDidMount() {
+    fetch('https://hooks.zapier.com/hooks/catch/2557220/ihmkyz/', {
+      method: 'post',
+      body: JSON.stringify({
+        folder: 'mahjong'
+      })
+    }).then(res => console.log(res))
+  }
+
   handleNameChange = name => this.setState({ name })
 
   handleModeChange = mode => this.setState({ mode })
