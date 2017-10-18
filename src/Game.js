@@ -75,6 +75,7 @@ export default class Game extends React.Component {
   }
 
   timer = () =>
+    this.state.reveal.length === this.state.cards.length ||
     setTimeout(
       () =>
         this.setState(
@@ -145,6 +146,8 @@ export default class Game extends React.Component {
   }
 
   ready = () => this.setState({ ready: true })
+
+  peek = () => this.setState({ ready: false })
 
   checkWin = () => {
     if (this.state.reveal.length === this.state.cards.length) {
@@ -251,8 +254,8 @@ export default class Game extends React.Component {
           </Grid>
         </Segment>
         {ready ? (
-          <Button color="red" as={Link} to="/find-the-pair/menu">
-            Exit
+          <Button primary onClick={this.peek}>
+            Peek
           </Button>
         ) : (
           <Button color="teal" onClick={this.ready}>
@@ -266,7 +269,11 @@ export default class Game extends React.Component {
           <Modal open={reveal.length === cards.length}>
             <Modal.Header>Congratulations, {this.props.name}!</Modal.Header>
             <Modal.Content>
-              <p>You've taken {steps} steps to find all the pairs. Good job!</p>
+              <p>You found all the pairs. Good job!</p>
+              <p>Steps taken: {steps}</p>
+              <p>Peek time: {this.format(time.memory)}</p>
+              <p>Game time: {this.format(time.game)}</p>
+              <p>Total time: {this.format(time.memory + time.game)}</p>
             </Modal.Content>
             <Modal.Actions>
               <Button
@@ -280,6 +287,14 @@ export default class Game extends React.Component {
             </Modal.Actions>
           </Modal>
         </Transition>
+        <Button
+          color="red"
+          as={Link}
+          to="/find-the-pair/menu"
+          circular
+          icon="arrow left"
+          style={{ position: 'fixed', top: 20, left: 20 }}
+        />
       </Container>
     )
   }
