@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Grid } from 'semantic-ui-react'
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom'
+import Sound from 'react-sound'
 import Home from './Home'
 import Menu from './Menu'
 import Game from './Game'
@@ -9,6 +10,7 @@ import 'semantic-ui-css/semantic.min.css'
 import './App.css'
 import pokerBack from './images/poker/gray_back-min.png'
 import mahjongBack from './images/mahjong/face-down-128px-min.png'
+import bgm from './audio/bgm.mp3'
 
 const importAll = r => {
   const images = {}
@@ -37,7 +39,8 @@ class App extends Component {
     name: '',
     mode: 'poker',
     difficulty: 'tutorial',
-    background: '#f7f7f7'
+    background: '#f7f7f7',
+    play: true
   }
 
   componentDidMount() {
@@ -57,6 +60,9 @@ class App extends Component {
 
   handleBackgroundColorChange = background => this.setState({ background })
 
+  replay = () =>
+    this.setState({ play: false }, () => this.setState({ play: true }))
+
   render() {
     const { name, mode, difficulty } = this.state
     return (
@@ -64,6 +70,15 @@ class App extends Component {
         <div style={{ height: '100%', backgroundColor: this.state.background }}>
           <Settings
             handleBackgroundColorChange={this.handleBackgroundColorChange}
+          />
+          <Sound
+            url={bgm}
+            playStatus={
+              this.state.play ? Sound.status.PLAYING : Sound.status.STOPPED
+            }
+            volume={10}
+            onFinishedPlaying={this.replay}
+            autoLoad
           />
           <Grid
             textAlign="center"

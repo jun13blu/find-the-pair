@@ -11,7 +11,12 @@ import {
   Transition
 } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
+import Sound from 'react-sound'
 import { object, string } from 'prop-types'
+import click from './audio/click.mp3'
+import correct from './audio/correct.mp3'
+import win from './audio/win.mp3'
+import wrong from './audio/wrong.mp3'
 
 const cardsNumber = {
   tutorial: 4,
@@ -50,6 +55,12 @@ export default class Game extends React.Component {
     time: {
       memory: 0,
       game: 0
+    },
+    sound: {
+      click: false,
+      correct: false,
+      wrong: false,
+      win: false
     }
   }
 
@@ -95,7 +106,8 @@ export default class Game extends React.Component {
       1000
     )
 
-  select = id =>
+  select = id => {
+    this.playSound('click')
     this.setState(
       {
         first: this.state.first || id,
@@ -116,13 +128,21 @@ export default class Game extends React.Component {
                       ? [...reveal, first, second]
                       : reveal
                 },
-                this.checkWin
+                () => {
+                  this.checkWin()
+                  this.getCardType(first) === this.getCardType(second)
+                    ? this.state.reveal.length === this.state.cards.length
+                      ? this.playSound('win')
+                      : this.playSound('correct')
+                    : this.playSound('wrong')
+                }
               ),
             500
           )
         }
       }
     )
+  }
 
   getCardType = id => this.state.cards.find(card => card.id === id).type
 
@@ -177,6 +197,11 @@ export default class Game extends React.Component {
       : `0${min.toFixed(0)}`}:${sec > 9 ? sec : `0${sec}`}`
   }
 
+  playSound = sound =>
+    this.setState({ sound: { ...this.state.sound, [sound]: false } }, () =>
+      this.setState({ sound: { ...this.state.sound, [sound]: true } })
+    )
+
   render() {
     const {
       first,
@@ -187,7 +212,8 @@ export default class Game extends React.Component {
       ready,
       poker,
       mahjong,
-      time
+      time,
+      sound
     } = this.state
     return (
       <Container>
@@ -294,6 +320,32 @@ export default class Game extends React.Component {
           circular
           icon="arrow left"
           style={{ position: 'fixed', top: 20, left: 20 }}
+        />
+        <Sound
+          url={click}
+          playStatus={sound.click ? Sound.status.PLAYING : Sound.status.STOPPED}
+          volume={100}
+          autoLoad
+        />
+        <Sound
+          url={wrong}
+          playStatus={sound.wrong ? Sound.status.PLAYING : Sound.status.STOPPED}
+          volume={100}
+          autoLoad
+        />
+        <Sound
+          url={correct}
+          playStatus={
+            sound.correct ? Sound.status.PLAYING : Sound.status.STOPPED
+          }
+          volume={100}
+          autoLoad
+        />
+        <Sound
+          url={win}
+          playStatus={sound.win ? Sound.status.PLAYING : Sound.status.STOPPED}
+          volume={50}
+          autoLoad
         />
       </Container>
     )
