@@ -1,8 +1,8 @@
 {
   "main.css": "static/css/main.d8c419b6.css",
   "main.css.map": "static/css/main.d8c419b6.css.map",
-  "main.js": "static/js/main.d2b9f3c8.js",
-  "main.js.map": "static/js/main.d2b9f3c8.js.map",
+  "main.js": "static/js/main.b6b7d104.js",
+  "main.js.map": "static/js/main.b6b7d104.js.map",
   "static\\media\\10C-min.png": "static/media/10C-min.6afe36e1.png",
   "static\\media\\10D-min.png": "static/media/10D-min.5ec8b723.png",
   "static\\media\\10H-min.png": "static/media/10H-min.3f7ec10e.png",
@@ -41,11 +41,16 @@
   "static\\media\\QH-min.png": "static/media/QH-min.f546c74e.png",
   "static\\media\\QS-min.png": "static/media/QS-min.891c1259.png",
   "static\\media\\S7-min.png": "static/media/S7-min.aba6200d.png",
+  "static\\media\\bgm.mp3": "static/media/bgm.022f7263.mp3",
+  "static\\media\\click.mp3": "static/media/click.89472e25.mp3",
+  "static\\media\\correct.mp3": "static/media/correct.5c1675b3.mp3",
   "static\\media\\flags.png": "static/media/flags.9c74e172.png",
   "static\\media\\gray_back-min.png": "static/media/gray_back-min.5e59b2c4.png",
   "static\\media\\icons.eot": "static/media/icons.674f50d2.eot",
   "static\\media\\icons.svg": "static/media/icons.912ec66d.svg",
   "static\\media\\icons.ttf": "static/media/icons.b06871f2.ttf",
   "static\\media\\icons.woff": "static/media/icons.fee66e71.woff",
-  "static\\media\\icons.woff2": "static/media/icons.af7ae505.woff2"
+  "static\\media\\icons.woff2": "static/media/icons.af7ae505.woff2",
+  "static\\media\\win.mp3": "static/media/win.970d7eca.mp3",
+  "static\\media\\wrong.mp3": "static/media/wrong.c5cd580b.mp3"
 }
