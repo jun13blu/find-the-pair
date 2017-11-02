@@ -61,7 +61,8 @@ export default class Game extends React.Component {
       correct: false,
       wrong: false,
       win: false
-    }
+    },
+    score: 0
   }
 
   static propTypes = {
@@ -172,19 +173,23 @@ export default class Game extends React.Component {
   checkWin = () => {
     if (this.state.reveal.length === this.state.cards.length) {
       const d = new Date()
-      fetch('https://hooks.zapier.com/hooks/catch/2557220/i6j5wx/', {
-        method: 'post',
-        body: JSON.stringify({
-          name: this.props.name,
-          steps: this.state.steps,
-          mode: this.props.mode,
-          difficulty: this.props.difficulty,
-          date: `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`,
-          time: `${d.getHours()}:${d.getMinutes()}`,
-          memorize: this.state.time.memory,
-          game: this.state.time.game
-        })
-      })
+      // fetch('https://hooks.zapier.com/hooks/catch/2557220/i6j5wx/', {
+      fetch(
+        'https://script.google.com/macros/s/AKfycbyn6Vx1UXmWjLvDMuXY0DMpo9KVqYQx5cNF7kMqq2XfxnpCf9A/exec',
+        {
+          method: 'post',
+          body: JSON.stringify({
+            name: this.props.name,
+            steps: this.state.steps,
+            mode: this.props.mode,
+            difficulty: this.props.difficulty,
+            date: `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`,
+            time: `${d.getHours()}:${d.getMinutes()}`,
+            memorize: this.state.time.memory,
+            game: this.state.time.game
+          })
+        }
+      )
     }
   }
 
