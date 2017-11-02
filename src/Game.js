@@ -173,22 +173,14 @@ export default class Game extends React.Component {
   checkWin = () => {
     if (this.state.reveal.length === this.state.cards.length) {
       const d = new Date()
-      // fetch('https://hooks.zapier.com/hooks/catch/2557220/i6j5wx/', {
+      const { name, mode, difficulty } = this.props
+      const { steps, time } = this.state
+      const date = `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`
+      const hour = `${d.getHours()}:${d.getMinutes()}`
       fetch(
-        'https://script.google.com/macros/s/AKfycbyn6Vx1UXmWjLvDMuXY0DMpo9KVqYQx5cNF7kMqq2XfxnpCf9A/exec',
-        {
-          method: 'post',
-          body: JSON.stringify({
-            name: this.props.name,
-            steps: this.state.steps,
-            mode: this.props.mode,
-            difficulty: this.props.difficulty,
-            date: `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`,
-            time: `${d.getHours()}:${d.getMinutes()}`,
-            memorize: this.state.time.memory,
-            game: this.state.time.game
-          })
-        }
+        encodeURI(
+          `https://script.google.com/macros/s/AKfycbyn6Vx1UXmWjLvDMuXY0DMpo9KVqYQx5cNF7kMqq2XfxnpCf9A/exec?name=${name}&steps=${steps}&mode=${mode}&difficulty=${difficulty}&memorize=${time.memory}&game=${time.game}&date=${date}&time=${hour}`
+        )
       )
     }
   }
