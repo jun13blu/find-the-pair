@@ -196,7 +196,17 @@ export default class Game extends React.Component {
 
   playSound = sound =>
     this.setState({ sound: { ...this.state.sound, [sound]: false } }, () =>
-      this.setState({ sound: { ...this.state.sound, [sound]: true } })
+      this.setState({
+        sound: { ...this.state.sound, [sound]: true },
+        score:
+          sound === 'correct' || sound === 'win'
+            ? this.state.score +
+              Number.parseInt(
+                1500 / (this.state.time.game + this.state.time.memory / 2),
+                10
+              )
+            : this.state.score
+      })
     )
 
   render() {
@@ -210,12 +220,13 @@ export default class Game extends React.Component {
       poker,
       mahjong,
       time,
-      sound
+      sound,
+      score
     } = this.state
     return (
       <Container>
         <Header as="h1" color="teal" textAlign="center">
-          Steps: {steps}
+          Score: {score}
           <Header.Subheader>
             {this.format(time.memory)} | {this.format(time.game)}
           </Header.Subheader>
@@ -292,6 +303,7 @@ export default class Game extends React.Component {
           <Modal open={reveal.length === cards.length}>
             <Modal.Header>Congratulations, {this.props.name}!</Modal.Header>
             <Modal.Content>
+              <Header color="teal">Score: {score}</Header>
               <p>You found all the pairs. Good job!</p>
               <p>Steps taken: {steps}</p>
               <p>Peek time: {this.format(time.memory)}</p>
