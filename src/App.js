@@ -6,11 +6,13 @@ import Home from './Home'
 import Menu from './Menu'
 import Game from './Game'
 import Settings from './Settings'
-import 'semantic-ui-css/semantic.min.css'
-import './App.css'
+import language from './lang.json'
 import pokerBack from './images/poker/gray_back-min.png'
 import mahjongBack from './images/mahjong/face-down-128px-min.png'
 import bgm from './audio/bgm.mp3'
+import 'semantic-ui-css/semantic.min.css'
+import 'rc-slider/assets/index.css'
+import './App.css'
 
 const importAll = r => {
   const images = {}
@@ -40,7 +42,9 @@ class App extends Component {
     mode: 'poker',
     difficulty: 'tutorial',
     background: '#f7f7f7',
-    play: true
+    play: true,
+    language: language.english,
+    volume: 10
   }
 
   componentDidMount() {
@@ -49,7 +53,7 @@ class App extends Component {
       body: JSON.stringify({
         folder: 'mahjong'
       })
-    }).then(res => console.log(res))
+    })
   }
 
   handleNameChange = name => this.setState({ name })
@@ -60,23 +64,31 @@ class App extends Component {
 
   handleBackgroundColorChange = background => this.setState({ background })
 
+  handleLanguage = lang => this.setState({ language: language[lang] })
+
+  handleVolume = volume => this.setState({ volume })
+
   replay = () =>
     this.setState({ play: false }, () => this.setState({ play: true }))
 
   render() {
-    const { name, mode, difficulty } = this.state
+    const { name, mode, difficulty, language, volume } = this.state
     return (
       <BrowserRouter>
         <div style={{ height: '100%', backgroundColor: this.state.background }}>
           <Settings
             handleBackgroundColorChange={this.handleBackgroundColorChange}
+            handleLanguage={this.handleLanguage}
+            handleVolume={this.handleVolume}
+            language={language}
+            volume={volume}
           />
           <Sound
             url={bgm}
             playStatus={
               this.state.play ? Sound.status.PLAYING : Sound.status.STOPPED
             }
-            volume={10}
+            volume={volume}
             onFinishedPlaying={this.replay}
             autoLoad
           />
@@ -94,6 +106,8 @@ class App extends Component {
                     <Home
                       handleNameChange={this.handleNameChange}
                       name={name}
+                      language={language}
+                      handleLanguage={this.handleLanguage}
                       {...props}
                     />
                   )}
@@ -105,6 +119,7 @@ class App extends Component {
                     name ? (
                       <Menu
                         {...props}
+                        language={language}
                         name={name}
                         mode={mode}
                         difficulty={difficulty}
@@ -122,11 +137,13 @@ class App extends Component {
                     name ? (
                       <Game
                         {...props}
+                        language={language}
                         name={name}
                         mahjong={mahjong}
                         poker={poker}
                         mode={mode}
                         difficulty={difficulty}
+                        volume={volume}
                       />
                     ) : (
                       <Redirect to="/find-the-pair" />

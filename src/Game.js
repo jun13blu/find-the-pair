@@ -223,10 +223,22 @@ export default class Game extends React.Component {
       sound,
       score
     } = this.state
+    const {
+      scoreLabel,
+      peek,
+      readyLabel,
+      congrats,
+      success,
+      steps: stepsLabel,
+      peekTime,
+      gameTime,
+      totalTime,
+      continueLabel
+    } = this.props.language
     return (
       <Container>
         <Header as="h1" color="teal" textAlign="center">
-          Score: {score}
+          {scoreLabel}: {score}
           <Header.Subheader>
             {this.format(time.memory)} | {this.format(time.game)}
           </Header.Subheader>
@@ -289,11 +301,11 @@ export default class Game extends React.Component {
         </Segment>
         {ready ? (
           <Button primary onClick={this.peek}>
-            Peek
+            {peek}
           </Button>
         ) : (
           <Button color="teal" onClick={this.ready}>
-            I'm Ready
+            {readyLabel}
           </Button>
         )}
         <Transition
@@ -301,21 +313,33 @@ export default class Game extends React.Component {
           animation="fade up"
         >
           <Modal open={reveal.length === cards.length}>
-            <Modal.Header>Congratulations, {this.props.name}!</Modal.Header>
+            <Modal.Header>
+              {congrats}, {this.props.name}!
+            </Modal.Header>
             <Modal.Content>
-              <Header color="teal">Score: {score}</Header>
-              <p>You found all the pairs. Good job!</p>
-              <p>Steps taken: {steps}</p>
-              <p>Peek time: {this.format(time.memory)}</p>
-              <p>Game time: {this.format(time.game)}</p>
-              <p>Total time: {this.format(time.memory + time.game)}</p>
+              <Header color="teal">
+                {scoreLabel}: {score}
+              </Header>
+              <p>{success}</p>
+              <p>
+                {stepsLabel}: {steps}
+              </p>
+              <p>
+                {peekTime}: {this.format(time.memory)}
+              </p>
+              <p>
+                {gameTime}: {this.format(time.game)}
+              </p>
+              <p>
+                {totalTime}: {this.format(time.memory + time.game)}
+              </p>
             </Modal.Content>
             <Modal.Actions>
               <Button
                 color="green"
                 as={Link}
                 to="/find-the-pair/menu"
-                content="Continue"
+                content={continueLabel}
                 icon="right arrow"
                 labelPosition="right"
               />

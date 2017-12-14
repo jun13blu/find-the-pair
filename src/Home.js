@@ -24,7 +24,10 @@ export default class Menu extends React.Component {
 
   handleChange = (e, { value }) => this.props.handleNameChange(value)
 
+  handleLanguage = (e, { id }) => this.props.handleLanguage(id)
+
   render() {
+    const { title, placeholder, start, lang } = this.props.language
     return (
       <Transition
         visible={this.state.visible}
@@ -33,9 +36,34 @@ export default class Menu extends React.Component {
       >
         <Container style={{ width: 450 }}>
           <Header as="h1" color="teal" textAlign="center">
-            Find the Pair
+            {title}
           </Header>
           <Form size="large">
+            <Button.Group>
+              <Button
+                id="english"
+                color={lang === 'english' ? 'teal' : undefined}
+                onClick={this.handleLanguage}
+              >
+                English
+              </Button>
+              <Button.Or />
+              <Button
+                id="malay"
+                color={lang === 'malay' ? 'teal' : undefined}
+                onClick={this.handleLanguage}
+              >
+                Melayu
+              </Button>
+              <Button.Or />
+              <Button
+                id="chinese"
+                color={lang === 'chinese' ? 'teal' : undefined}
+                onClick={this.handleLanguage}
+              >
+                华语
+              </Button>
+            </Button.Group>
             <Segment stacked>
               <Form.Input
                 value={this.props.name}
@@ -43,7 +71,7 @@ export default class Menu extends React.Component {
                 fluid
                 transparent
                 size="huge"
-                placeholder="Enter your name"
+                placeholder={placeholder}
               />
               <Button
                 as={Link}
@@ -53,7 +81,7 @@ export default class Menu extends React.Component {
                 size="large"
                 disabled={!this.props.name.length}
               >
-                Start
+                {start}
               </Button>
             </Segment>
           </Form>

@@ -27,8 +27,26 @@ export default class Menu extends React.Component {
 
   handleDifficulty = (e, { id }) => this.props.handleDifficultyChange(id)
 
+  handleLanguage = (e, { id }) => this.props.handleLanguage(id)
+
   render() {
-    const { mode, difficulty } = this.props
+    const { mode, difficulty, language } = this.props
+    const {
+      welcome,
+      modeLabel,
+      poker,
+      mahjong,
+      difficulty: difficultyLabel,
+      intro,
+      easy,
+      normal,
+      hard,
+      challenging,
+      play,
+      not,
+      click,
+      here
+    } = language
     return (
       <Transition
         visible={this.state.visible}
@@ -37,17 +55,17 @@ export default class Menu extends React.Component {
       >
         <Container style={{ width: 450 }}>
           <Header as="h1" color="teal" textAlign="center">
-            Welcome, {this.props.name}!
+            {welcome}, {this.props.name}!
           </Header>
           <Segment vertical basic>
-            <Divider horizontal>Mode</Divider>
+            <Divider horizontal>{modeLabel}</Divider>
             <Button.Group>
               <Button
                 id="poker"
                 color={mode === 'poker' ? 'green' : undefined}
                 onClick={this.handleMode}
               >
-                Poker
+                {poker}
               </Button>
               <Button.Or />
               <Button
@@ -55,19 +73,19 @@ export default class Menu extends React.Component {
                 color={mode === 'mahjong' ? 'green' : undefined}
                 onClick={this.handleMode}
               >
-                Mahjong
+                {mahjong}
               </Button>
             </Button.Group>
           </Segment>
           <Segment vertical basic>
-            <Divider horizontal>Difficulty</Divider>
+            <Divider horizontal>{difficultyLabel}</Divider>
             <Button.Group>
               <Button
                 id="tutorial"
                 color={difficulty === 'tutorial' ? 'blue' : undefined}
                 onClick={this.handleDifficulty}
               >
-                Tutorial
+                {intro}
               </Button>
               <Button.Or />
               <Button
@@ -75,7 +93,7 @@ export default class Menu extends React.Component {
                 color={difficulty === 'easy' ? 'teal' : undefined}
                 onClick={this.handleDifficulty}
               >
-                Easy
+                {easy}
               </Button>
               <Button.Or />
               <Button
@@ -83,7 +101,7 @@ export default class Menu extends React.Component {
                 color={difficulty === 'normal' ? 'olive' : undefined}
                 onClick={this.handleDifficulty}
               >
-                Normal
+                {normal}
               </Button>
               <Button.Or />
               <Button
@@ -91,7 +109,7 @@ export default class Menu extends React.Component {
                 color={difficulty === 'hard' ? 'orange' : undefined}
                 onClick={this.handleDifficulty}
               >
-                Hard
+                {hard}
               </Button>
               <Button.Or />
               <Button
@@ -99,7 +117,7 @@ export default class Menu extends React.Component {
                 color={difficulty === 'challenging' ? 'red' : undefined}
                 onClick={this.handleDifficulty}
               >
-                Challenging
+                {challenging}
               </Button>
             </Button.Group>
           </Segment>
@@ -111,11 +129,12 @@ export default class Menu extends React.Component {
               fluid
               size="large"
             >
-              Play
+              {play}
             </Button>
           </Segment>
           <p>
-            Not {this.props.name}? Click <Link to="/find-the-pair/">here</Link>.
+            {not} {this.props.name}? {click}{' '}
+            <Link to="/find-the-pair/">{here}</Link>.
           </p>
         </Container>
       </Transition>
