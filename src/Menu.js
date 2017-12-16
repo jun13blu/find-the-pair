@@ -9,9 +9,10 @@ import {
 } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { string } from 'prop-types'
+import Upload from './Upload'
 
 export default class Menu extends React.Component {
-  state = { visible: false }
+  state = { visible: false, loading: true }
 
   static propTypes = {
     name: string,
@@ -20,8 +21,18 @@ export default class Menu extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({ visible: true })
+    this.setState({ visible: true }, () => this.fetchPhotos(this.props.name))
   }
+
+  fetchPhotos = name =>
+    fetch(
+      encodeURI(
+        `https://script.google.com/macros/s/AKfycbyn6Vx1UXmWjLvDMuXY0DMpo9KVqYQx5cNF7kMqq2XfxnpCf9A/exec?type=retrieve&username=${name}`
+      )
+    )
+      .then(res => res.json())
+      .then(res => res.base64.map(base64 => decodeURIComponent(base64)))
+      .then(photos => this.props.handlePhotos(photos))
 
   handleMode = (e, { id }) => this.props.handleModeChange(id)
 
@@ -30,7 +41,7 @@ export default class Menu extends React.Component {
   handleLanguage = (e, { id }) => this.props.handleLanguage(id)
 
   render() {
-    const { mode, difficulty, language } = this.props
+    const { mode, difficulty, language, photos, name } = this.props
     const {
       welcome,
       modeLabel,
@@ -45,7 +56,8 @@ export default class Menu extends React.Component {
       play,
       not,
       click,
-      here
+      here,
+      photosLabel
     } = language
     return (
       <Transition
@@ -62,7 +74,7 @@ export default class Menu extends React.Component {
             <Button.Group>
               <Button
                 id="poker"
-                color={mode === 'poker' ? 'green' : undefined}
+                color={mode === 'poker' ? 'teal' : undefined}
                 onClick={this.handleMode}
               >
                 {poker}
@@ -70,10 +82,18 @@ export default class Menu extends React.Component {
               <Button.Or />
               <Button
                 id="mahjong"
-                color={mode === 'mahjong' ? 'green' : undefined}
+                color={mode === 'mahjong' ? 'teal' : undefined}
                 onClick={this.handleMode}
               >
                 {mahjong}
+              </Button>
+              <Button.Or />
+              <Button
+                id="photos"
+                color={mode === 'photos' ? 'teal' : undefined}
+                onClick={this.handleMode}
+              >
+                {photosLabel}
               </Button>
             </Button.Group>
           </Segment>
@@ -122,15 +142,24 @@ export default class Menu extends React.Component {
             </Button.Group>
           </Segment>
           <Segment vertical basic>
-            <Button
-              as={Link}
-              to="/find-the-pair/game"
-              color="teal"
-              fluid
-              size="large"
-            >
-              {play}
-            </Button>
+            {mode === 'photos' ? (
+              <Upload
+                photos={photos}
+                language={language}
+                name={name}
+                fetchPhotos={this.fetchPhotos}
+              />
+            ) : (
+              <Button
+                as={Link}
+                to="/find-the-pair/game"
+                color="teal"
+                fluid
+                size="large"
+              >
+                {play}
+              </Button>
+            )}
           </Segment>
           <p>
             {not} {this.props.name}? {click}{' '}

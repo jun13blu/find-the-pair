@@ -31,7 +31,9 @@
     "totalTime": "Total time",
     "continueLabel": "Continue",
     "languageLabel": "Language",
-    "volumeLabel": "Volume"
+    "volumeLabel": "Volume",
+    "photosLabel": "Photos",
+    "upload": "Upload"
   },
   "chinese": {
     "lang": "chinese",
@@ -65,7 +67,9 @@
     "totalTime": "总时间",
     "continueLabel": "继续",
     "languageLabel": "语言",
-    "volumeLabel": "声量"
+    "volumeLabel": "声量",
+    "photosLabel": "照片",
+    "upload": "上传"
   },
   "malay": {
     "lang": "malay",
@@ -99,6 +103,8 @@
     "totalTime": "Jumlah masa",
     "continueLabel": "Teruskan",
     "languageLabel": "Bahasa",
-    "volumeLabel": "Suara"
+    "volumeLabel": "Suara",
+    "photosLabel": "Gambar",
+    "upload": "Muat Naik"
   }
 }

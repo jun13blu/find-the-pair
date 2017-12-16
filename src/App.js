@@ -44,16 +44,8 @@ class App extends Component {
     background: '#f7f7f7',
     play: true,
     language: language.english,
-    volume: 10
-  }
-
-  componentDidMount() {
-    fetch('https://hooks.zapier.com/hooks/catch/2557220/ihmkyz/', {
-      method: 'post',
-      body: JSON.stringify({
-        folder: 'mahjong'
-      })
-    })
+    volume: 10,
+    photos: []
   }
 
   handleNameChange = name => this.setState({ name })
@@ -68,11 +60,13 @@ class App extends Component {
 
   handleVolume = volume => this.setState({ volume })
 
+  handlePhotos = photos => this.setState({ photos }, () => console.log(photos))
+
   replay = () =>
     this.setState({ play: false }, () => this.setState({ play: true }))
 
   render() {
-    const { name, mode, difficulty, language, volume } = this.state
+    const { name, mode, difficulty, language, volume, photos } = this.state
     return (
       <BrowserRouter>
         <div style={{ height: '100%', backgroundColor: this.state.background }}>
@@ -125,10 +119,13 @@ class App extends Component {
                         difficulty={difficulty}
                         handleDifficultyChange={this.handleDifficultyChange}
                         handleModeChange={this.handleModeChange}
+                        handlePhotos={this.handlePhotos}
+                        photos={photos}
                       />
                     ) : (
                       <Redirect to="/find-the-pair" />
-                    )}
+                    )
+                  }
                 />
                 <Route
                   exact
@@ -144,10 +141,12 @@ class App extends Component {
                         mode={mode}
                         difficulty={difficulty}
                         volume={volume}
+                        photos={photos}
                       />
                     ) : (
                       <Redirect to="/find-the-pair" />
-                    )}
+                    )
+                  }
                 />
                 <Redirect to="/find-the-pair" />
               </Switch>

@@ -17,6 +17,7 @@ import click from './audio/click.mp3'
 import correct from './audio/correct.mp3'
 import win from './audio/win.mp3'
 import wrong from './audio/wrong.mp3'
+import photosBack from './images/photosBack.png'
 
 const cardsNumber = {
   tutorial: 4,
@@ -50,6 +51,10 @@ export default class Game extends React.Component {
         }))
         .filter(card => card.type !== 'back')
     },
+    photos: {
+      back: photosBack,
+      front: this.props.photos.map((photo, i) => ({ type: i, src: photo }))
+    },
     cards: [],
     ready: false,
     time: {
@@ -78,7 +83,9 @@ export default class Game extends React.Component {
         cards: this.getCardList(
           this.props.mode === 'poker'
             ? this.state.poker.front
-            : this.state.mahjong.front,
+            : this.props.mode === 'mahjong'
+              ? this.state.mahjong.front
+              : this.state.photos.front,
           cardsNumber[this.props.difficulty]
         )
       },
@@ -179,9 +186,13 @@ export default class Game extends React.Component {
       const hour = `${d.getHours()}:${d.getMinutes()}`
       fetch(
         encodeURI(
-          `https://script.google.com/macros/s/AKfycbyn6Vx1UXmWjLvDMuXY0DMpo9KVqYQx5cNF7kMqq2XfxnpCf9A/exec?name=${name}&steps=${steps}&mode=${mode}&difficulty=${difficulty}&memorize=${time.memory}&game=${time.game}&date=${date}&time=${hour}`
+          `https://script.google.com/macros/s/AKfycbyn6Vx1UXmWjLvDMuXY0DMpo9KVqYQx5cNF7kMqq2XfxnpCf9A/exec?name=${name}&steps=${steps}&mode=${mode}&difficulty=${difficulty}&memorize=${
+            time.memory
+          }&game=${time.game}&date=${date}&time=${hour}`
         )
       )
+        .then(res => res.json())
+        .then(res => console.log(res))
     }
   }
 
@@ -189,9 +200,9 @@ export default class Game extends React.Component {
     const hour = time / 3600
     const min = (time % 3600) / 60
     const sec = time % 60
-    return `${hour > 9 ? hour.toFixed(0) : `0${hour.toFixed(0)}`}:${min > 9
-      ? min.toFixed(0)
-      : `0${min.toFixed(0)}`}:${sec > 9 ? sec : `0${sec}`}`
+    return `${hour > 9 ? hour.toFixed(0) : `0${hour.toFixed(0)}`}:${
+      min > 9 ? min.toFixed(0) : `0${min.toFixed(0)}`
+    }:${sec > 9 ? sec : `0${sec}`}`
   }
 
   playSound = sound =>
@@ -221,7 +232,8 @@ export default class Game extends React.Component {
       mahjong,
       time,
       sound,
-      score
+      score,
+      photos
     } = this.state
     const {
       scoreLabel,
@@ -285,7 +297,11 @@ export default class Game extends React.Component {
                     <Image
                       className={second ? undefined : 'card'}
                       src={
-                        this.props.mode === 'poker' ? poker.back : mahjong.back
+                        this.props.mode === 'poker'
+                          ? poker.back
+                          : this.props.mode === 'mahjong'
+                            ? mahjong.back
+                            : photos.back
                       }
                       size="small"
                       onClick={second ? undefined : () => this.select(card.id)}
