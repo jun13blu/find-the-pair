@@ -190,9 +190,7 @@ export default class Game extends React.Component {
             time.memory
           }&game=${time.game}&date=${date}&time=${hour}`
         )
-      )
-        .then(res => res.json())
-        .then(res => console.log(res))
+      ).then(res => res.json())
     }
   }
 
@@ -305,6 +303,7 @@ export default class Game extends React.Component {
                       }
                       size="small"
                       onClick={second ? undefined : () => this.select(card.id)}
+                      fluid
                     />
                   </Reveal.Content>
                   <Reveal.Content hidden>

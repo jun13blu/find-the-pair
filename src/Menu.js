@@ -24,7 +24,7 @@ export default class Menu extends React.Component {
     this.setState({ visible: true }, () => this.fetchPhotos(this.props.name))
   }
 
-  fetchPhotos = name =>
+  fetchPhotos = (name, cb) =>
     fetch(
       encodeURI(
         `https://script.google.com/macros/s/AKfycbyn6Vx1UXmWjLvDMuXY0DMpo9KVqYQx5cNF7kMqq2XfxnpCf9A/exec?type=retrieve&username=${name}`
@@ -33,6 +33,7 @@ export default class Menu extends React.Component {
       .then(res => res.json())
       .then(res => res.base64.map(base64 => decodeURIComponent(base64)))
       .then(photos => this.props.handlePhotos(photos))
+      .then(() => this.setState({ loading: false }, () => cb && cb()))
 
   handleMode = (e, { id }) => this.props.handleModeChange(id)
 
@@ -41,6 +42,7 @@ export default class Menu extends React.Component {
   handleLanguage = (e, { id }) => this.props.handleLanguage(id)
 
   render() {
+    const { loading } = this.state
     const { mode, difficulty, language, photos, name } = this.props
     const {
       welcome,
@@ -148,6 +150,7 @@ export default class Menu extends React.Component {
                 language={language}
                 name={name}
                 fetchPhotos={this.fetchPhotos}
+                loading={loading}
               />
             ) : (
               <Button

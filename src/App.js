@@ -48,7 +48,7 @@ class App extends Component {
     photos: []
   }
 
-  handleNameChange = name => this.setState({ name })
+  handleNameChange = name => this.setState({ name, photos: [] })
 
   handleModeChange = mode => this.setState({ mode })
 
@@ -60,7 +60,7 @@ class App extends Component {
 
   handleVolume = volume => this.setState({ volume })
 
-  handlePhotos = photos => this.setState({ photos }, () => console.log(photos))
+  handlePhotos = photos => this.setState({ photos })
 
   replay = () =>
     this.setState({ play: false }, () => this.setState({ play: true }))

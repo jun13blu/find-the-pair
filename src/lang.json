@@ -33,7 +33,10 @@
     "languageLabel": "Language",
     "volumeLabel": "Volume",
     "photosLabel": "Photos",
-    "upload": "Upload"
+    "upload": "Upload",
+    "uploadWarning": "Please upload at least 6 photos.",
+    "errorWarning":
+      "Error uploading photo. Please try uploading photo with smaller size."
   },
   "chinese": {
     "lang": "chinese",
@@ -69,7 +72,9 @@
     "languageLabel": "语言",
     "volumeLabel": "声量",
     "photosLabel": "照片",
-    "upload": "上传"
+    "upload": "上传",
+    "uploadWarning": "请上传至少六张照片。",
+    "errorWarnign": "请上传文件大小比较小的照片。"
   },
   "malay": {
     "lang": "malay",
@@ -105,6 +110,8 @@
     "languageLabel": "Bahasa",
     "volumeLabel": "Suara",
     "photosLabel": "Gambar",
-    "upload": "Muat Naik"
+    "upload": "Muat Naik",
+    "uploadWarning": "Sila muat naik sekurang-kurangnya enam keping gambar.",
+    "errorWarning": "Saiz fail untuk gambar yang dipilih terlalu besar."
   }
 }

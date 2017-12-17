@@ -25,7 +25,7 @@ export default class ImageCompressor extends React.Component {
         this.setState({
           file: imgFile,
           reader: this._generateReader(imgFile),
-          scale: img.width > img.height ? 24000 / img.width : 24000 / img.height
+          scale: img.width > img.height ? 20000 / img.width : 20000 / img.height
         })
       img.src = window.URL.createObjectURL(imgFile)
     }
@@ -116,7 +116,7 @@ export default class ImageCompressor extends React.Component {
         />
         <label htmlFor="file" className="ui green icon right labeled button">
           <i aria-hidden="true" className="up arrow icon" />
-          Upload
+          {this.props.upload}
         </label>
       </div>
     )
