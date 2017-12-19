@@ -305,12 +305,8 @@ export default class Game extends React.Component {
                       onClick={second ? undefined : () => this.select(card.id)}
                     />
                   </Reveal.Content>
-                  <Reveal.Content hidden style={{ verticalAlign: 'center' }}>
-                    <Image
-                      src={card.src}
-                      fluid
-                      styke={{ verticalAlign: 'center' }}
-                    />
+                  <Reveal.Content hidden>
+                    <Image src={card.src} fluid />
                   </Reveal.Content>
                 </Reveal>
               </Grid.Column>
