@@ -48,7 +48,13 @@ class App extends Component {
     photos: []
   }
 
-  handleNameChange = name => this.setState({ name, photos: [] })
+  handleNameChange = name =>
+    this.setState({
+      name,
+      photos: [],
+      mode: 'poker',
+      difficulty: 'tutorial'
+    })
 
   handleModeChange = mode => this.setState({ mode })
 

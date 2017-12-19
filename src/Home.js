@@ -10,7 +10,7 @@ import {
 import { Link } from 'react-router-dom'
 import { func, string } from 'prop-types'
 
-export default class Menu extends React.Component {
+export default class Home extends React.Component {
   state = { visible: false }
 
   static propTypes = {

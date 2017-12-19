@@ -1,5 +1,5 @@
 import React from 'react'
-import { Modal, Button, Grid, Image, Segment } from 'semantic-ui-react'
+import { Modal, Button, Grid, Segment } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import ImageCompress from './ImageCompress'
 
@@ -33,9 +33,9 @@ export default class Settings extends React.Component {
     const photosLength = this.props.photos.length
     this.props.fetchPhotos(this.props.name, () =>
       this.setState(
-        { error: this.props.photos.length == photosLength, loading: false },
+        { error: this.props.photos.length === photosLength, loading: false },
         () =>
-          this.props.photos.length == photosLength &&
+          this.props.photos.length === photosLength &&
           setTimeout(() => this.setState({ error: false }), 5000)
       )
     )
@@ -71,6 +71,7 @@ export default class Settings extends React.Component {
                   <img
                     className="ui centered fluid image"
                     src={photo.replace(' ', '')}
+                    alt={`${i}`}
                   />
                 </Grid.Column>
               ))}

@@ -34,6 +34,7 @@ export default class Menu extends React.Component {
       .then(res => res.base64.map(base64 => decodeURIComponent(base64)))
       .then(photos => this.props.handlePhotos(photos))
       .then(() => this.setState({ loading: false }, () => cb && cb()))
+      .catch(() => this.fetchPhotos(name, cb))
 
   handleMode = (e, { id }) => this.props.handleModeChange(id)
 
